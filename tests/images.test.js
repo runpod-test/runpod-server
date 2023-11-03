@@ -37,7 +37,7 @@ describe('Images service', () => {
     });
 
     expect(response.status).to.equal(400);
-    expect(response.body).to.have.property('error', 'Image prompt is required');
+    expect(response.body.data).to.have.property('error', 'Image prompt is required');
   });
 
   it('should generate and return a new image', async () => {
@@ -72,6 +72,6 @@ describe('Images service', () => {
     const response = await request.get(`/api/v1/images/${nonExistingId}`);
 
     expect(response.status).to.equal(404);
-    expect(response.body).to.have.property('error', 'Image not found');
+    expect(response.body.data).to.have.property('error', 'Image not found');
   });
 });

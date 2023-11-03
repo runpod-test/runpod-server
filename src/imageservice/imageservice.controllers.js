@@ -6,7 +6,7 @@ const generatedImages = [];
 const handleGenerateImageRequest = async (req, res) => {
   if (!req.body.image_prompt) {
     logger.error('Image prompt is required');
-    return res.status(400).json({error: 'Image prompt is required'});
+    return res.status(400).json({data: {error: 'Image prompt is required'}});
   }
 
   try {
@@ -47,7 +47,7 @@ const handleGenerateImageRequest = async (req, res) => {
     res.status(201).json({message: 'Image generated successfully', data: responseData});
   } catch (error) {
     logger.error('Failed to generate image', {error});
-    res.status(500).json({error: 'Failed to generate image'});
+    res.status(500).json({data: {error: 'Failed to generate image'}});
   }
 }
 
@@ -67,7 +67,7 @@ const handleGetImageByIdRequest = async (req, res) => {
 
   if (!image) {
     logger.info('Image not found', {id});
-    res.status(404).json({error: 'Image not found'});
+    res.status(404).json({data: {error: 'Image not found'}});
   } else {
     logger.info('Image retrieved successfully', {
       image_prompt: image.image_prompt, ...image.meta
