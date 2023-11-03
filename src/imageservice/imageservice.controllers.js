@@ -36,7 +36,8 @@ const handleGenerateImageRequest = async (req, res) => {
       id: response.data.id,
       image_prompt: req.body.image_prompt,
       image_url: response.data.output[0].image,
-      meta: response.data
+      meta: response.data,
+      created_at: new Date().toISOString()
     };
 
     generatedImages.push(responseData);
@@ -58,7 +59,13 @@ const handleGetAllImagesRequest = async (req, res) => {
   logger.info('All images retrieved successfully', {
     images_count: generatedImages.length
   });
-  res.status(200).json({data: generatedImages});
+
+  // Return the image by latest created date
+  const sortedImages = generatedImages.sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+
+  res.status(200).json({data: sortedImages});
 }
 
 const handleGetImageByIdRequest = async (req, res) => {
